@@ -6,20 +6,26 @@ namespace CheckUrl;
 
 class Program
 {
-  static async Task Main(string[] args)
+  static async Task Main(string[] arguments)
   {
-    if (args.Length < 2)
+    if (arguments.Length == 0)
+    {
+      arguments[0] = "alive";
+      arguments[1] = "http://www.google.com";
+    }
+
+    if (arguments.Length < 2)
     {
       Console.WriteLine("Usage: CheckUrl alive/dead \"http://www.google.com\" 10");
     }
 
     var alive =
-        args[0]?.ToLower() == "alive" ? true :
-        args[0]?.ToLower() == "dead" ? false :
-        throw new InvalidOperationException("Unexcpected " + args[0]);
+        arguments[0]?.ToLower() == "alive" ? true :
+        arguments[0]?.ToLower() == "dead" ? false :
+        throw new InvalidOperationException("Unexcpected " + arguments[0]);
 
-    var url = args[1];
-    var retry = args.Length == 2 ? 15 : int.Parse(args[2]);
+    var url = arguments[1];
+    var retry = arguments.Length == 2 ? 15 : int.Parse(arguments[2]);
 
     var client = new HttpClient();
     try
